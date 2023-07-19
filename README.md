@@ -6,24 +6,43 @@ Powershell script to move WSL data to new location.
 
 Script also helps to reduce size of `ext4.vhdx` (WSL's data file), because for some reason `docker system prune` and `docker builder prune` do not reduce it.
 
+## Requirements
+
+You should have twice as much space on the disk to which you are moving the WSL data than the WSL data itself. It is needed for run since the script creates an archive, and then applies it, creating WSL data, and only then deletes it.
+
 ## Usage
 
-Clone the repository and then run:
+1. Clone the repository:
 
-```powershell
-./move.ps1 <WSL name to move> <full path to new directory to store WSL folder>
-```
+    ```powershell
+    git clone https://github.com/Nikolai2038/move-wsl-data.git
+    cd move-wsl-data
+    ```
 
-Example:
+2. See list of available WSLs and remember name of one you want to move:
 
-```powershell
-./move.ps1 "docker-desktop-data" "D:\WSL"
-```
+    ```powershell
+    wsl -l -v
+    ```
 
-In this example, after execution, WSL data will be moved to `D:\WSL\docker-desktop-data\ext4.vhdx`.
+3. Run script:
 
-To see list of available WSLs, run:
+    ```powershell
+    ./move.ps1 <WSL name to move> <full path to new directory to store WSL folder>
+    ```
 
-```powershell
-wsl -l -v
-```
+    Example:
+
+    ```powershell
+    ./move.ps1 "docker-desktop-data" "D:\WSL"
+    ```
+
+    In this example, after execution, WSL data will be moved to `D:\WSL\docker-desktop-data\ext4.vhdx`.
+
+    You can also run script without parameters:
+
+    ```powershell
+    ./move.ps1
+    ```
+
+    In this case PowerShell will request you to enter them one after another.
