@@ -25,7 +25,9 @@ You should have twice as much space on the disk to which you are moving the WSL 
     wsl -l -v
     ```
 
-3. Run script:
+3. Stop Docker Desktop if you are using it.
+
+4. Run script:
 
     ```powershell
     ./move.ps1 <WSL name to move> <full path to new directory to store WSL folder>

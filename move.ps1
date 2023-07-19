@@ -26,22 +26,27 @@ $wslTempArchivePath = "${dirToTempStoreArchives}\${movingWSLName}.tar"
 # ========================================
 # Moving WSL data
 # ========================================
-# 1. Save WSL data to archive
+# 1. Stop WSLs
+wsl --shutdown
+# Exit if was error
+if (${LASTEXITCODE} -ne 0) { Exit ${LASTEXITCODE} }
+
+# 2. Save WSL data to archive
 wsl --export "${movingWSLName}" "${wslTempArchivePath}"
 # Exit if was error
 if (${LASTEXITCODE} -ne 0) { Exit ${LASTEXITCODE} }
 
-# 2. Now remove WSL data
+# 3. Now remove WSL data
 wsl --unregister "${movingWSLName}"
 # Exit if was error
 if (${LASTEXITCODE} -ne 0) { Exit ${LASTEXITCODE} }
 
-# 3. Importing the distribution back to WSL, but now to a new location
+# 4. Importing the distribution back to WSL, but now to a new location
 wsl --import "${movingWSLName}" "${wslNewPath}" "${wslTempArchivePath}" --version 2
 # Exit if was error
 if (${LASTEXITCODE} -ne 0) { Exit ${LASTEXITCODE} }
 
-# 4. Remove temp archive
+# 5. Remove temp archive
 Remove-Item "${wslTempArchivePath}"
 # Exit if was error
 if (${LASTEXITCODE} -ne 0) { Exit ${LASTEXITCODE} }
