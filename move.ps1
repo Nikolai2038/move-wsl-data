@@ -5,22 +5,27 @@ param(
 
     # Full path to new directory to store WSL folder
     [Parameter(Mandatory = $true)]
-    [string]${targetWSLDir}
+    [string]${targetWSLDir},
+
+    # Full path to directory to store temp archives
+    [string]${dirToTempStoreArchives}
 )
+
+# Default dir if not provided
+if([string]::IsNullOrEmpty($dirToTempStoreArchives)) {
+    $dirToTempStoreArchives = "${targetWSLDir}"
+}
+
+# Full path to new WSL folder
+$wslNewPath = "${targetWSLDir}\${movingWSLName}"
+
+# Full path to WSL's temp arhive
+$wslTempArchivePath = "${dirToTempStoreArchives}\${movingWSLName}.tar"
 
 Write-Output "Current WSL list:"
 wsl -l -v
 # Exit if was error
 if (${LASTEXITCODE} -ne 0) { Exit ${LASTEXITCODE} }
-
-# Full path to new WSL folder
-$wslNewPath = "${targetWSLDir}\${movingWSLName}"
-
-# Full path to directory to store temp archives
-$dirToTempStoreArchives = "${targetWSLDir}"
-
-# Full path to WSL's temp arhive
-$wslTempArchivePath = "${dirToTempStoreArchives}\${movingWSLName}.tar"
 
 # ========================================
 # Moving WSL data
